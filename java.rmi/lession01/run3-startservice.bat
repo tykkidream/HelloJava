@@ -1,4 +1,4 @@
 @echo off
-rem µÚÈı²½£¬Æô¶¯·şÎñ¶Ë
+rem ç¬¬ä¸‰æ­¥ï¼Œå¯åŠ¨æœåŠ¡ç«¯ã€‚
 cd target/classes/
 java DemoServiceImpl

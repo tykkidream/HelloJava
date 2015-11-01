@@ -14,6 +14,9 @@
         <module>java.rmi/lession02/lession02-server</module>
         <module>java.rmi/lession02/lession02-api</module>
         <module>java.rmi/lession02/lession02-client</module>
+        <module>java.rmi/lession03/api</module>
+        <module>java.rmi/lession03/server</module>
+        <module>java.rmi/lession03/client</module>
     </modules>
 
 
