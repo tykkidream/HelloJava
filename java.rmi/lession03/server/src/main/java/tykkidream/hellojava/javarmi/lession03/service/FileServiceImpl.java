@@ -8,9 +8,16 @@ import java.rmi.server.UnicastRemoteObject;
 
 /**
  * Created by Tykkidream on 2015/11/1.
+ *
+ * 远程的接口的实现，必须继承UnicastRemoteObject类。
  */
 public class FileServiceImpl extends UnicastRemoteObject implements FileService {
 
+    /**
+     * 因为UnicastRemoteObject的构造方法抛出了RemoteException异常，
+     * 因此这里默认的构造方法必须写，必须声明抛出RemoteException异常。
+     * @throws RemoteException
+     */
     public FileServiceImpl()  throws RemoteException{
         super();
     }
