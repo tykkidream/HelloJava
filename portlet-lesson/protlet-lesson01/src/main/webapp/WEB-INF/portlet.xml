@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0" 
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+             xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd 
+                                 http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+	<portlet>
+		<portlet-name>Lession01-HelloWorldPortlet</portlet-name>
+		<display-name>Lession01-HelloWorldPortlet</display-name>
+		<!-- <display-name xml:lang="zh">学习01-HelloWorldPortlet</display-name> -->
+		<portlet-class>helloworld.java.portlet.lession01.potlet.HelloWorldPortlet</portlet-class>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
+			<portlet-mode>help</portlet-mode>
+		</supports>
+		<!-- <supported-locale>zh</supported-locale> -->
+		<portlet-info>
+			<title>HelloWorld</title>
+		</portlet-info>
+	</portlet>
+	
+	<portlet>
+		<portlet-name>Lession01-PrintNamePortlet</portlet-name>
+		<display-name>Lession01-PrintNamePortlet</display-name>
+		<display-name xml:lang="zh">学习01-PrintNamePortlet</display-name>
+		<portlet-class>helloworld.java.portlet.lession01.potlet.PrintNamePortlet</portlet-class>
+		<init-param>
+			<name>jsp_view</name>
+			<value>/WEB-INF/views/printname/view.jsp</value>
+		</init-param>
+		<init-param>
+			<name>jsp_edit</name>
+			<value>/WEB-INF/views/printname/edit.jsp</value>
+		</init-param>
+		<init-param>
+			<name>jsp_help</name>
+			<value>/WEB-INF/views/printname/help.jsp</value>
+		</init-param>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
+			<portlet-mode>help</portlet-mode>
+		</supports>
+		<supported-locale>zh</supported-locale>
+		<portlet-info>
+			<title>打印名字</title>
+		</portlet-info>
+	</portlet>
+	
+	<portlet>
+		<portlet-name>Lession01-ViewFormPortlet</portlet-name>
+		<display-name>Lession01-ViewFormPortlet</display-name>
+		<display-name xml:lang="zh">学习01-ViewFormPortlet</display-name>
+		<portlet-class>helloworld.java.portlet.lession01.potlet.ViewFormPortlet</portlet-class>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>
+		<supported-locale>zh</supported-locale>
+		<portlet-info>
+			<title>视图表单</title>
+		</portlet-info>
+	</portlet>
+	
+	<portlet>
+		<portlet-name>Lession01-AjaxPortlet</portlet-name>
+		<display-name>Lession01-AjaxPortlet</display-name>
+		<display-name xml:lang="zh">学习01-AjaxPortlet</display-name>
+		<portlet-class>helloworld.java.portlet.lession01.potlet.AjaxPortlet</portlet-class>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>
+		<supported-locale>zh</supported-locale>
+		<portlet-info>
+			<title>Portlet和Servelt处理Ajax请求</title>
+		</portlet-info>
+	</portlet>
+</portlet-app>
