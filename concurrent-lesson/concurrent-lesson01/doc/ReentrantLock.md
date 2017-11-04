@@ -36,7 +36,7 @@ ReentrantLock() & ReentrantLock(boolean fair)
 
 getHoldCount()
 -------
-查询当前线程保持此锁的次数。
+查询当前线程拥有此锁的次数，因为当前线程可以多次重入。
 对于与解除锁操作不匹配的每个锁操作，线程都会保持一个锁。 
 
 isHeldByCurrentThread()

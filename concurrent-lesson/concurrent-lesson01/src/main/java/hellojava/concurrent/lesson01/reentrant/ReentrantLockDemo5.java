@@ -12,8 +12,8 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Created by Tykkidream on 2017/10/24.
  */
-public class ReentrantLockDemo3 {
-    private static Logger logger = LoggerFactory.getLogger(ReentrantLockDemo3.class);
+public class ReentrantLockDemo5 {
+    private static Logger logger = LoggerFactory.getLogger(ReentrantLockDemo5.class);
 
     public static void main(String[] args) throws InterruptedException {
         ReentrantLock lock = new ReentrantLock();
@@ -28,6 +28,14 @@ public class ReentrantLockDemo3 {
         thread1.start();
         thread2.start();
 
+        // 统计执行当中，锁使用的情况
+        logger.info("### 锁是否被抢：{}", lock.isLocked());
+        logger.info("### 锁是否公平：{}", lock.isFair());
+        logger.info("### 是否有线程正在等待获取此锁：{}", lock.hasQueuedThreads());
+        logger.info("### 正在等待获取此锁的线程数量：{}", lock.getQueueLength());
+        logger.info("### 线程1 是否正在等待获取此锁：{}", lock.hasQueuedThread(thread1));
+        logger.info("### 线程2 是否正在等待获取此锁：{}", lock.hasQueuedThread(thread2));
+
         latch.await();
 
         logger.info("最终结果 共 {} 个元素：{}", entity.size(), entity.toString());
@@ -41,14 +49,12 @@ public class ReentrantLockDemo3 {
 
         @Override
         public void run() {
-            // 尝试获取锁，否则直接失败
-            if (!lock.tryLock()) {
-                logger.warn("{} 获取锁失败", currentThread().getName());
-                latch.countDown();
-                return;
-            }
+            lock.lock();
 
             try {
+                ReentrantLock reentrantLock = (ReentrantLock)lock;
+                logger.info("*** 当前线程持有锁的次数：{}", reentrantLock.getHoldCount());
+
                 doRun();
             } catch (Throwable throwable){
                 logger.error(throwable.getMessage(), throwable);

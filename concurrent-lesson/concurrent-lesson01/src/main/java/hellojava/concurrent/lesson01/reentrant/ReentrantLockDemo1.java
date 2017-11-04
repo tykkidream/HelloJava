@@ -42,9 +42,10 @@ public class ReentrantLockDemo1 {
 
         @Override
         public void run() {
+            // 使用lock()获取锁
+            lock.lock();
+
             try {
-                // 使用lock()获取锁
-                lock.lock();
                 doRun();
             } catch (Throwable throwable){
                 logger.error(throwable.getMessage(), throwable);

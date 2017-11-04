@@ -6,14 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Tykkidream on 2017/10/24.
  */
-public class ReentrantLockDemo3 {
-    private static Logger logger = LoggerFactory.getLogger(ReentrantLockDemo3.class);
+public class ReentrantLockDemo4 {
+    private static Logger logger = LoggerFactory.getLogger(ReentrantLockDemo4.class);
 
     public static void main(String[] args) throws InterruptedException {
         ReentrantLock lock = new ReentrantLock();
@@ -41,11 +42,17 @@ public class ReentrantLockDemo3 {
 
         @Override
         public void run() {
-            // 尝试获取锁，否则直接失败
-            if (!lock.tryLock()) {
+            try {
+                // 尝试在规定时间内获取锁，否则超时处理
+                if (!lock.tryLock(1000, TimeUnit.MILLISECONDS)) {
+                    logger.info("{} 获取锁失败", currentThread().getName());
+                    latch.countDown();
+                    return;
+                }
+            } catch (InterruptedException e){
                 logger.warn("{} 获取锁失败", currentThread().getName());
+                logger.error(e.getMessage(), e);
                 latch.countDown();
-                return;
             }
 
             try {
