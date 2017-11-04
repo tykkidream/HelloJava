@@ -43,18 +43,25 @@ public class ReentrantLockDemo3 {
 
         @Override
         public void run() {
-            if (lock.tryLock()) {
-                lock.lock();
-                try {
-                    super.run();
-                } finally {
-                    lock.unlock();
-                }
-            } else {
+            if (!lock.tryLock()) {
                 logger.info("{} 获取锁失败", currentThread().getName());
                 latch.countDown();
+                return;
             }
 
+            try {
+                for (int i = 0; i < maxValue; i++) {
+                    entity.add(Thread.currentThread().getName(), key, i);
+
+                    logger.info("{} 添加了 {} , {}， 共 {} 个 ：{}", Thread.currentThread().getName(), key, i, entity.size(), entity.toString());
+                }
+            } catch (Throwable throwable) {
+                logger.info(throwable.getMessage(), throwable);
+            } finally {
+                // 使用unlock()释放锁
+                lock.unlock();
+                latch.countDown();
+            }
         }
     }
 }

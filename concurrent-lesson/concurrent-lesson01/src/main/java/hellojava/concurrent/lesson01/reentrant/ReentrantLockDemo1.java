@@ -28,6 +28,7 @@ public class ReentrantLockDemo1 {
         thread1.start();
         thread2.start();
 
+        // 等所有线程都执行完
         latch.await();
 
         logger.info("最终结果 共 {} 个元素：{}", entity.size(), entity.toString());
@@ -43,11 +44,20 @@ public class ReentrantLockDemo1 {
 
         @Override
         public void run() {
+            // 使用lock()获取锁
             lock.lock();
             try {
-                super.run();
+                for (int i = 0; i < maxValue; i++) {
+                    entity.add(Thread.currentThread().getName(), key, i);
+
+                    logger.info("{} 添加了 {} , {}， 共 {} 个 ：{}", Thread.currentThread().getName(), key, i, entity.size(), entity.toString());
+                }
+            } catch (Throwable throwable) {
+                logger.info(throwable.getMessage(), throwable);
             } finally {
+                // 使用unlock()释放锁
                 lock.unlock();
+                latch.countDown();
             }
         }
     }

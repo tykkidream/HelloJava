@@ -44,18 +44,26 @@ public class ReentrantLockDemo2 {
         @Override
         public void run() {
             try {
+                // 获取锁，当线程被中断时，抛出异常，终止方法。
                 lock.lockInterruptibly();
             } catch (InterruptedException e) {
                 logger.error(e.getMessage(), e);
-                return;
-            } finally {
                 latch.countDown();
+                return;
             }
 
             try {
-                super.run();
+                for (int i = 0; i < maxValue; i++) {
+                    entity.add(Thread.currentThread().getName(), key, i);
+
+                    logger.info("{} 添加了 {} , {}， 共 {} 个 ：{}", Thread.currentThread().getName(), key, i, entity.size(), entity.toString());
+                }
+            } catch (Throwable throwable) {
+                logger.info(throwable.getMessage(), throwable);
             } finally {
+                // 使用unlock()释放锁
                 lock.unlock();
+                latch.countDown();
             }
         }
     }

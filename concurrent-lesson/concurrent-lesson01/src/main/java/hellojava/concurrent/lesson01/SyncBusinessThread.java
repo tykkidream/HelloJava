@@ -22,20 +22,4 @@ public class SyncBusinessThread extends Thread {
         this.key = key;
         this.maxValue = maxValue;
     }
-
-    @Override
-    public void run() {
-        try {
-
-            for (int i = 0; i < maxValue; i++) {
-                entity.add(Thread.currentThread().getName(), key, i);
-
-                logger.info("{} 添加了 {} , {}， 共 {} 个 ：{}", Thread.currentThread().getName(), key, i, entity.size(), entity.toString());
-            }
-        } catch (Throwable throwable) {
-            throw throwable;
-        } finally {
-            latch.countDown();
-        }
-    }
 }
