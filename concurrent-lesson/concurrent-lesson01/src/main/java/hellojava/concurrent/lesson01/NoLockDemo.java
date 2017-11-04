@@ -16,8 +16,8 @@ public class NoLockDemo {
 
         SyncBusinessEntity entity = new SyncBusinessEntity();
 
-        SyncBusinessThread thread1 = new SyncBusinessThread(latch, entity, 1, 5);
-        SyncBusinessThread thread2 = new SyncBusinessThread(latch, entity, 2, 5);
+        SyncBusinessThread thread1 = new SyncBusinessThread(null ,latch, entity, 1, 5);
+        SyncBusinessThread thread2 = new SyncBusinessThread(null, latch, entity, 2, 5);
 
         thread1.start();
         thread2.start();

@@ -34,11 +34,8 @@ public class ReentrantLockDemo2 {
     }
 
     public static class SyncBusinessThreadReform extends SyncBusinessThread {
-        private Lock lock;
-
         public SyncBusinessThreadReform(Lock lock, CountDownLatch latch, SyncBusinessEntity entity, int key, int maxValue) {
-            super(latch, entity, key, maxValue);
-            this.lock = lock;
+            super(lock, latch, entity, key, maxValue);
         }
 
         @Override
@@ -47,22 +44,17 @@ public class ReentrantLockDemo2 {
                 // 获取锁，当线程被中断时，抛出异常，终止方法。
                 lock.lockInterruptibly();
             } catch (InterruptedException e) {
+                logger.warn("{} 获取锁失败", currentThread().getName());
                 logger.error(e.getMessage(), e);
                 latch.countDown();
                 return;
             }
 
             try {
-                for (int i = 0; i < maxValue; i++) {
-                    entity.add(Thread.currentThread().getName(), key, i);
-
-                    logger.info("{} 添加了 {} , {}， 共 {} 个 ：{}", Thread.currentThread().getName(), key, i, entity.size(), entity.toString());
-                }
-            } catch (Throwable throwable) {
-                logger.info(throwable.getMessage(), throwable);
+                doRun();
+            } catch (Throwable throwable){
+                logger.error(throwable.getMessage(), throwable);
             } finally {
-                // 使用unlock()释放锁
-                lock.unlock();
                 latch.countDown();
             }
         }
