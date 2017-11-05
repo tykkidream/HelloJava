@@ -32,3 +32,7 @@
 
 - 代码示例：[ReentrantLockDemo5](src/main/java/hellojava/concurrent/lesson01/reentrant/ReentrantLockDemo5.java)
 
+理解 `ReentrantLock` 的重入功能。
+
+- 代码示例：[ReentrantLockDemo6](src/main/java/hellojava/concurrent/lesson01/reentrant/ReentrantLockDemo6.java)
+
