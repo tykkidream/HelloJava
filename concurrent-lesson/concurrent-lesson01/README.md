@@ -1,8 +1,3 @@
-学习 java.util.concurrent.locks.Lock 
-
-- [Lock 说明](doc/Lock.md)
-- [ReentrantLock 说明](doc/ReentrantLock.md)
-
 并发问题示例
 =====================
 
@@ -13,20 +8,6 @@
 正确结果：应为10个元素，分别是线程1和2，各5个值。
 
 错误情况：1、有时会出现`java.util.ConcurrentModificationException`异常；2、数据丢失，某次测试最后只有9个元素，[查看图片1](doc/NoLockDemoError1.PNG)，[查看图片2](doc/NoLockDemoError2.PNG)，[查看图片3](doc/NoLockDemoError3.PNG)。
-
-
-Lock 对比 synchronized
-=====================
-
-`synchronized` 是 java 关键字，由JVM底层实现了锁功能。
-
-`synchronized` 修饰于方法和代码块，同一时间，方法或代码在只能被一个线程获取锁并执行其代码，而其他线程会被阻塞等待。一直等到刚才线程执行代码自动释放了锁，再从其它线程随机出一个会抢到锁。
-
-释放锁只会有两种情况：
-
-- 线程执行完`synchronized`的代码；
-
-- `synchronized`的代码发生异常。
 
 使用 ReentrantLock 解决并发问题
 =====================
