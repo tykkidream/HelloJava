@@ -14,7 +14,6 @@ public class LockSupportDemo {
     private static Logger logger = LoggerFactory.getLogger(LockSupportDemo.class);
 
     private static class Data {
-        String index = "";
         String data = "";
     }
 
@@ -22,51 +21,29 @@ public class LockSupportDemo {
 
         final Data input = new Data();
 
-        final Object blocker = new Object();
-
-
-        Thread thread1 = new Thread() {
+        Thread thread = new Thread() {
             @Override
             public void run() {
                 while (!input.data.equals("exit")){
                     LockSupport.park();
-                    logger.info("线程一：{}", input.data);
+                    logger.info(input.data);
                 }
             }
         };
 
-
-        Thread thread2 = new Thread() {
-            @Override
-            public void run() {
-                while (!input.data.equals("exit")){
-                    LockSupport.park(blocker);
-                    logger.info("线程二：{}", input.data);
-                }
-            }
-        };
-
-        thread1.start();
-        thread2.start();
+        thread.start();
 
         while (true) {
-            read(input);
-
-            if (input.index.equals("1")) {
-                LockSupport.unpark(thread1);
-            } else if (input.index.equals("2")){
-                LockSupport.unpark(thread2);
-            }
-
+            input.data = read();
+            LockSupport.unpark(thread);
             if (input.data.equals("exit")) {
                 break;
             }
         }
     }
 
-    private static void read(Data data) {
+    private static String read() {
         Scanner scanner = new Scanner(System.in);
-        data.index = scanner.nextLine();
-        data.data = scanner.nextLine();
+        return scanner.nextLine();
     }
 }
