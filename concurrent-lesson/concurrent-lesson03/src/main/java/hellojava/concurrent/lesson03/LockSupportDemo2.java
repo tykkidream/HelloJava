@@ -14,7 +14,7 @@ public class LockSupportDemo2 {
             public void run() {
                 logger.info("子线程开始");
                 // 等待或许许可
-                // 可被 thread.interrupt() 中断
+                // 可被 thread.interrupt() 中断，但不会抛出 InterruptedException
                 LockSupport.park();
 
                 logger.info("测试线程结束：{}",Thread.currentThread().isInterrupted());
