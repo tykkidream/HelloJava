@@ -9,9 +9,9 @@ import java.util.concurrent.locks.LockSupport;
 /**
  * Created by Tykkidream on 2017/11/7.
  */
-public class LockSupportDemo {
+public class LockSupportDemo1 {
 
-    private static Logger logger = LoggerFactory.getLogger(LockSupportDemo.class);
+    private static Logger logger = LoggerFactory.getLogger(LockSupportDemo1.class);
 
     private static class Data {
         String data = "";
