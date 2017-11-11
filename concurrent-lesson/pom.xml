@@ -20,6 +20,7 @@
         <module>concurrent-lesson05</module>
         <module>concurrent-lesson06</module>
         <module>concurrent-lesson07</module>
+        <module>concurrent-lesson08</module>
     </modules>
 
     <build>
