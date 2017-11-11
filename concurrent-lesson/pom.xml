@@ -18,6 +18,7 @@
         <module>concurrent-lesson03</module>
         <module>concurrent-lesson04</module>
         <module>concurrent-lesson05</module>
+        <module>concurrent-lesson06</module>
     </modules>
 
     <build>
