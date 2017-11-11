@@ -1,23 +1,28 @@
 package hellojava.concurrent.lesson05;
 
-import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Created by Tykkidream on 2017/11/10.
  */
-public class AtomicTest extends TestTemplate {
-    public AtomicTest(String _id, int _round, int _threadNum, CyclicBarrier _cb) {
-        super(_id, _round, _threadNum, _cb);
+public class AtomicTest extends TestCaseTemplate {
+    protected AtomicLong countValueAtmoic = new AtomicLong(0);
+
+    protected AtomicInteger indexAtomic = new AtomicInteger(0);
+
+    public AtomicTest(int round) {
+        super(round);
     }
 
     /**
      * synchronized关键字不在方法签名里面，所以不涉及重载问题
      */
-    long getValue() {
-        return super.countValueAtmoic.get();
+    public long getValue() {
+        return countValueAtmoic.get();
     }
 
-    void sumValue() {
-        super.countValueAtmoic.addAndGet(super.preInit[indexAtomic.get() % round]);
+    public void sumValue() {
+        countValueAtmoic.addAndGet(super.preInit[indexAtomic.get() % round]);
     }
 }
