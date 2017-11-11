@@ -6,14 +6,15 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by Tykkidream on 2017/11/10.
  */
 public class LockTest extends TestCaseTemplate implements TestCase {
-    ReentrantLock lock = new ReentrantLock();
-
+    private ReentrantLock lock = new ReentrantLock();
     private long countValue;
     private int index;
 
 
     public LockTest(int round) {
         super(round);
+
+        this.lock = new ReentrantLock();
     }
 
     /**
@@ -30,12 +31,16 @@ public class LockTest extends TestCaseTemplate implements TestCase {
 
     public void sumValue() {
         for (int i = 0; i < round; i++) {
-            try {
-                lock.lock();
-                countValue += preInit[index++ % round];
-            } finally {
-                lock.unlock();
-            }
+            sumValueOfLock();
+        }
+    }
+
+    private void sumValueOfLock() {
+        try {
+            lock.lock();
+            countValue += preInit[index++ % round];
+        } finally {
+            lock.unlock();
         }
     }
 }

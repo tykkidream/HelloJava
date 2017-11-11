@@ -11,11 +11,18 @@ public class SyncTest extends TestCaseTemplate {
         super(round);
     }
 
-    public synchronized void sumValue() {
-        countValue += preInit[index++ % round];
-    }
-
     public long getValue() {
         return countValue;
     }
+
+    public void sumValue() {
+        for (int i = 0; i < round; i++) {
+            sumValueOfLock();
+        }
+    }
+
+    private synchronized void sumValueOfLock() {
+        countValue += preInit[index++ % round];
+    }
+
 }

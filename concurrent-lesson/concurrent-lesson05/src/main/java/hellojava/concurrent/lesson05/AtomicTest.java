@@ -23,6 +23,12 @@ public class AtomicTest extends TestCaseTemplate {
     }
 
     public void sumValue() {
+        for (int i = 0; i < round; i++) {
+            sumValueOfLock();
+        }
+    }
+
+    private void sumValueOfLock() {
         countValueAtmoic.addAndGet(super.preInit[indexAtomic.get() % round]);
     }
 }
