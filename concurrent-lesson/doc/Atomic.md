@@ -55,21 +55,21 @@ Atomic包里的类基本都是使用Unsafe实现的包装类。
 ========================
 
 
-|方法\类          | AtomicBoolean | AtomicInteger | AtomicLong | AtomicIntegerArray |
-|-----------------|---------------|---------------|------------|--------------------|-
-|compareAndSet    |       有      |       有      |     有     |         有         |
-|get              |       有      |       有      |     有     |         有         |
-|lazySet          |       有      |       有      |     有     |         有         |
-|set              |       有      |       有      |     有     |         有         |
-|weakCompareAndSet|       有      |       有      |     有     |         有         |
-|getAndSet        |       有      |       有      |     有     |         有         |
-|getAndAdd        |       --      |       有      |     有     |         有         |
-|getAndDecrement  |       --      |       有      |     有     |         有         |
-|getAndIncrement  |       --      |       有      |     有     |         有         |
-|addAndGet        |       --      |       有      |     有     |         有         |
-|incrementAndGet  |       --      |       有      |     有     |         有         |
-|decrementAndGet  |       --      |       有      |     有     |         有         |
-|doubleValue      |       --      |       有      |     有     |         --         |
-|floatValue       |       --      |       有      |     有     |         --         |
-|intValue         |       --      |       有      |     有     |         --         |
-|longValue        |       --      |       有      |     有     |         --         |
+方法\类          | AtomicBoolean | AtomicInteger | AtomicLong | AtomicIntegerArray |
+-----------------|---------------|---------------|------------|--------------------|-
+compareAndSet    |       有      |       有      |     有     |         有         |
+get              |       有      |       有      |     有     |         有         |
+lazySet          |       有      |       有      |     有     |         有         |
+set              |       有      |       有      |     有     |         有         |
+weakCompareAndSet|       有      |       有      |     有     |         有         |
+getAndSet        |       有      |       有      |     有     |         有         |
+getAndAdd        |       --      |       有      |     有     |         有         |
+getAndDecrement  |       --      |       有      |     有     |         有         |
+getAndIncrement  |       --      |       有      |     有     |         有         |
+addAndGet        |       --      |       有      |     有     |         有         |
+incrementAndGet  |       --      |       有      |     有     |         有         |
+decrementAndGet  |       --      |       有      |     有     |         有         |
+doubleValue      |       --      |       有      |     有     |         --         |
+floatValue       |       --      |       有      |     有     |         --         |
+intValue         |       --      |       有      |     有     |         --         |
+longValue        |       --      |       有      |     有     |         --         |
