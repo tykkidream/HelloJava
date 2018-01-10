@@ -1,7 +1,5 @@
 package hellojava.concurrent.lesson09;
 
-import com.alibaba.fastjson.JSON;
-
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
