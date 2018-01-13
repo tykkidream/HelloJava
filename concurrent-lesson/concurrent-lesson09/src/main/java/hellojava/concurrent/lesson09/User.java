@@ -4,9 +4,9 @@ package hellojava.concurrent.lesson09;
  * Created by Tykkidream on 2018/1/12.
  */
 public class User {
-    private String name;
+    String name;
 
-    private int old;
+    volatile int old;
 
     public User(String name, int old) {
         this.name = name;
