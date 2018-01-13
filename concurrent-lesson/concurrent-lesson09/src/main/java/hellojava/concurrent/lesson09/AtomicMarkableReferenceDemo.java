@@ -46,5 +46,14 @@ public class AtomicMarkableReferenceDemo {
         System.out.println(JSON.toJSONString(atomicMarkableReference.isMarked()));
         System.out.println(JSON.toJSONString(atomicMarkableReference.getReference()));
 
+
+        // 如果当前引用 == 预期引用，则以原子方式将该标记的值设置为给定的更新值。
+        // 仅是通过比较引用，来修改标识的。
+        System.out.println("\nattemptMark");
+        System.out.println(atomicMarkableReference.attemptMark(role2, true));
+        System.out.println(JSON.toJSONString(atomicMarkableReference.isMarked()));
+        System.out.println(atomicMarkableReference.attemptMark(role1, true));
+        System.out.println(JSON.toJSONString(atomicMarkableReference.isMarked()));
+
     }
 }

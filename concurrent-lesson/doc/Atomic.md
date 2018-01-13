@@ -77,10 +77,10 @@ Atomic包里的类基本都是使用Unsafe实现的包装类。
 | :---------------- | :---------------: | :---------------------------: | :-----------------------: |
 | compareAndSet     |         有        |               有              |             有            |
 | get               |         有        |               有              |             有            |
-| lazySet           |         有        |               有              |             有            |
+| lazySet           |         有        |               有              |             --            |
 | set               |         有        |               有              |             有            |
 | weakCompareAndSet |         有        |               有              |             有            |
-| getAndSet         |         有        |               有              |             有            |
+| getAndSet         |         有        |               有              |             --            |
 | getAndAdd         |         --        |               --              |             --            |
 | getAndDecrement   |         --        |               --              |             --            |
 | getAndIncrement   |         --        |               --              |             --            |
@@ -96,6 +96,7 @@ Atomic包里的类基本都是使用Unsafe实现的包装类。
 | attemptStamp      |         --        |               --              |             --            |
 | getReference      |         --        |               --              |             --            |
 | getStamp          |         --        |               --              |             --            |
+| attemptMark       |         --        |               --              |             有            |
 
 
 | 方法 \ 类         |  AtomicIntegerFieldUpdater  |  AtomicLongFieldUpdater  |  AtomicStampedReference  |
