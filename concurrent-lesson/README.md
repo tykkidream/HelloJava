@@ -17,3 +17,8 @@
 - [concurrent-lesson03](concurrent-lesson03)：练习使用 `LockSupport` 。
 - [concurrent-lesson04](concurrent-lesson04)：练习使用 `Condition` 。
 - [concurrent-lesson05](concurrent-lesson05)：性能测试 。
+- [concurrent-lesson06](concurrent-lesson06)：性能测试 。
+- [concurrent-lesson07](concurrent-lesson07)：性能测试 。
+- [concurrent-lesson08](concurrent-lesson08)：性能测试 。
+- [concurrent-lesson09](concurrent-lesson09)：学习 `Atomic` 包 。
+- [concurrent-lesson10](concurrent-lesson10)：
