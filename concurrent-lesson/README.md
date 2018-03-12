@@ -21,4 +21,4 @@
 - [concurrent-lesson07](concurrent-lesson07)：性能测试 。
 - [concurrent-lesson08](concurrent-lesson08)：性能测试 。
 - [concurrent-lesson09](concurrent-lesson09)：学习 `Atomic` 包 。
-- [concurrent-lesson10](concurrent-lesson10)：
+- [concurrent-lesson10](concurrent-lesson10)：初识 `Executors`。 
