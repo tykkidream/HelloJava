@@ -38,7 +38,7 @@ Util Lesson 01 说明
 
 ### 创建监听器重启业务线程
 
-创建监听器类，实现`Observer`接口，在`update`方法中添加重启线程代码：
+创建监听器类，实现`Observer`接口，在`update`方法中添加重启线程代码。
 
 示例：[Listener](src/main/java/hellojava/util/lesson01/Listener.java)
 
