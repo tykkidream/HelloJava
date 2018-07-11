@@ -22,3 +22,4 @@
 - [concurrent-lesson08](concurrent-lesson08)：性能测试 。
 - [concurrent-lesson09](concurrent-lesson09)：学习 `Atomic` 包 。
 - [concurrent-lesson10](concurrent-lesson10)：初识 `Executors`。 
+- [concurrent-lesson11](concurrent-lesson11)：实现一个具有超时控制，甚至能杀死线程的线程池的工具类。 
