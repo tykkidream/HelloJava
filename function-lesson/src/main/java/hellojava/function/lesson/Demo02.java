@@ -15,7 +15,7 @@ public class Demo02 {
 		// 测试简单直接使用类上的函数
 		System.out.println("当前 person  的 address 属性为： " + person.getAddress());
 
-		test1(person, address, Person::setAddress);
+		test(person, address, Person::setAddress);
 
 		System.out.println("处理 person  的 address 属性为： " + person.getAddress());
 
@@ -23,16 +23,12 @@ public class Demo02 {
 		// 测试级联使用类的属性上的函数
 		System.out.println("当前 address 的 city    属性为： " + address.getCity());
 
-		test2(person, city, (aa, bb) -> aa.getAddress().setCity(bb));
+		test(person, city, (aa, bb) -> aa.getAddress().setCity(bb));
 
 		System.out.println("当前 address 的 city    属性为： " + address.getCity());
 	}
 
-	private static <T, P> void test1(T data, P param,  BiConsumer<T, P> function) {
-		function.accept(data, param);
-	}
-
-	private static <T, P> void test2(T data, P param,  BiConsumer<T, P> function) {
+	private static <T, P> void test(T data, P param,  BiConsumer<T, P> function) {
 		function.accept(data, param);
 	}
 }
