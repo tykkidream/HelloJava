@@ -16,7 +16,7 @@ public class CharUnicodeCode {
         c = '＋';
         System.out.printf("\\u%04x\n", (int) c);
 
-        // 在 print 相关函数中可以用\uxxxx表示一个字符:
+        // 在 print 相关函数中可以用\\uxxxx表示一个字符:
         System.out.println("\u5e74");
 
         // 表情符号和一些生僻字需要用两个 UTF-16 代码单元表示，这意味着 char 无法表示这些字符。不过可以用 String 来表示。代码示例：
