@@ -24,6 +24,7 @@
         <module>concurrent-lesson09</module>
         <module>concurrent-lesson10</module>
         <module>concurrent-lesson11</module>
+        <module>concurrent-lesson12</module>
     </modules>
 
     <build>
