@@ -2,6 +2,9 @@ package hellojava.concurrent.lesson12;
 
 import java.util.concurrent.Semaphore;
 
+/**
+ * 学习信号量
+ */
 public class SemaphoreDemo1 implements Runnable {
     private Semaphore semaphore;
 
@@ -13,6 +16,7 @@ public class SemaphoreDemo1 implements Runnable {
     }
 
     public static void main(String[] args) {
+        // 最多同时被两个线程抢到
         Semaphore semaphore = new Semaphore(2);
 
         SemaphoreDemo1 demo1 = new SemaphoreDemo1(semaphore, 1);
