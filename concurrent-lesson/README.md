@@ -23,3 +23,5 @@
 - [concurrent-lesson09](concurrent-lesson09)：学习 `Atomic` 包 。
 - [concurrent-lesson10](concurrent-lesson10)：初识 `Executors`。 
 - [concurrent-lesson11](concurrent-lesson11)：实现一个具有超时控制，甚至能杀死线程的线程池的工具类。 
+- [concurrent-lesson12](concurrent-lesson12)：学习 `Semaphore` 信号量。 
+- [concurrent-lesson13](concurrent-lesson13)：学习 `CompletableFuture`。 
