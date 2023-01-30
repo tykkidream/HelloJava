@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 public class CompletableFutureDemo01 {
 
@@ -13,32 +14,47 @@ public class CompletableFutureDemo01 {
         // 创建异步执行任务:
         CompletableFuture<Double> cf = CompletableFuture.supplyAsync(CompletableFutureDemo01::fetchPrice);
 
-        logger.info("设置执行成功如何处理 begin");
+        Double value;
 
-        // 如果执行成功:
-        cf.thenAccept((result) -> {
-            logger.info("成功获取到价格 price: " + result);
-        });
+        logger.info("=== 开始 ===");
 
-        logger.info("设置执行成功如何处理 end");
+        try {
+            // 注意， CompletableFuture.get(time) 是不支持【指定超时时间内，没有值则返回null，不抛出异常】，会抛出异常的。
+            value = cf.get(100, TimeUnit.MILLISECONDS);
+            logger.info("通过 get(time) 获取值成功：" + value);
+        } catch (Throwable throwable) {
+            // 因为超时没有获取到值，会报异常！
+            logger.error("通过 get(time) 获取值异常：", throwable);
+        }
 
-        logger.info("设置执行失败如何处理 begin");
-        // 如果执行异常:
-        cf.exceptionally((e) -> {
-            logger.error("失败了", e);
-            return null;
-        });
-        logger.info("设置执行失败如何处理 end");
+        logger.info("isCancelled             ：" + cf.isCancelled());
+        logger.info("isDone                  ：" + cf.isDone());
+        logger.info("isCompletedExceptionally：" + cf.isCompletedExceptionally());
 
-        // 主线程不要立刻结束，否则CompletableFuture默认使用的线程池会立刻关闭:
-        Thread.sleep(200);
+        try {
+            // 阻塞当前线程，直到获取到值。
+            value = cf.get();
+            logger.info("通过 get() 获取值成功：" + value);
+        } catch (Throwable throwable) {
+            // 如果 fetchPrice 抛出了异常，这里会捕获到异常。
+            logger.error("通过 get() 获取值异常：", throwable);
+        }
+
+        logger.info("isCancelled             ：" + cf.isCancelled());
+        logger.info("isDone                  ：" + cf.isDone());
+        logger.info("isCompletedExceptionally：" + cf.isCompletedExceptionally());
     }
 
+    /**
+     * 在默认线程池中执行
+     *
+     * @return
+     */
     static Double fetchPrice() {
         logger.info("\t\t开始执行");
 
         try {
-            Thread.sleep(100);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
         }
         if (Math.random() < 0.3) {
