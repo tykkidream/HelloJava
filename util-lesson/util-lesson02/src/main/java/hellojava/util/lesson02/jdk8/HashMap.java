@@ -298,6 +298,17 @@ public class HashMap<K,V> extends AbstractMap<K,V>
     transient int modCount;
 
     /**
+     * <h1>HashMap 扩容阈值</h1>
+     *
+     * {@link #table} 的包含数据的数量，也就是 {@link #size} 大于 threshold 时, 会进行 {@link #resize()}。
+     * <p/>
+     *
+     * threshold 等于 {@link #table} 的长度乘以 {@link #loadFactor} 的值。
+     * <p/>
+     *
+     * threshold 是会变化的，每次 resize 时，会重新生成触发下次 resize 的 threshold。当 table 变大时 threshold 也会变大。
+     * <p/>
+     *
      * The next size value at which to resize (capacity * load factor).
      *
      * @serial
@@ -521,6 +532,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
         if ((tab = table) == null || (n = tab.length) == 0)
             // table 为 null，或者 table 长度为 0，需要初始化 table。
             // 初始化 table 完成后，table 有了新的大小的空间，n 等于 tab 数组的新长度
+            // 是懒加载，第一次真正添加数据的时候，才真正的创建数据空间。
             n = (tab = resize()).length;
 
 
@@ -627,7 +639,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
             }
             else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
                     oldCap >= DEFAULT_INITIAL_CAPACITY)
-                // oldCap 左移一位，就是新的 table 的长度，保存到 newCap，相当于于原来的长度 * 2，新的长度始终保持 2的n 次方大小。
+                // oldCap 左移一位，就是新的 table 的长度，保存到 newCap，相当于于原来的长度的 2 倍，新的长度始终保持 2的n 次方大小。
                 // 如果 newCap 比最大容量 MAXIMUM_CAPACITY 小，比默认容量 DEFAULT_INITIAL_CAPACITY 大，对阙值也扩容 2 倍。
                 // newThr 是新的阙值， oldThr 是旧的没有被覆盖
                 newThr = oldThr << 1; // double threshold
@@ -682,8 +694,8 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                         ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
                     else { // preserve order
                         /*
-                        这里定义了五个Node变量，其中lo和hi是，lower和higher的缩写，也就是高位和低位。
-                        因为我们知道HashMap扩容时，容量会扩到原容量的2倍，也就是放在链表中的Node的位置可能保持不变，
+                        这里定义了五个Node变量，其中lo和hi是，lower 和 higher的缩写，也就是高位和低位。
+                        因为我们知道 HashMap 扩容时，容量会扩到原容量的 2 倍，也就是放在链表中的 Node 的位置可能保持不变，
                         或位置变成在原位置基础上又加了一个数，位置变高了。
                         这里的高低位就是这个意思，低位指向的是保持原位置不变的节点，高位指向的是需要更新位置的节点。
                          */
@@ -718,9 +730,13 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                             if ((e.hash & oldCap) == 0) {
                                 // 重新组织当前链表
                                 if (loTail == null)
+                                    // 如果没有尾，说明链表为空
+                                    // 链表为空时，低位头节点为当前元素
                                     loHead = e;
                                 else
+                                    // 将当前节点添加到链表尾部
                                     loTail.next = e;
+                                // 当前节点成为链表的尾节点
                                 loTail = e;
                             }
                             else {
@@ -736,10 +752,12 @@ public class HashMap<K,V> extends AbstractMap<K,V>
 
 
                         if (loTail != null) {
+                            // 低位元素的链表，还是放在原有位置
                             loTail.next = null;
                             newTab[j] = loHead;
                         }
                         if (hiTail != null) {
+                            // 高位元素的链表，放到新位置，为原位置上加旧数组的长度
                             hiTail.next = null;
                             newTab[j + oldCap] = hiHead;
                         }
