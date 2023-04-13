@@ -14,6 +14,7 @@
 
     <modules>
         <module>util-lesson01</module>
+        <module>util-lesson02</module>
     </modules>
 
     <build>

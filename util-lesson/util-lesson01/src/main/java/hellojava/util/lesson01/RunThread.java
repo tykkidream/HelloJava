@@ -21,7 +21,7 @@ public class RunThread extends Observable implements Runnable {
 
         // 模拟线程运行一段时间之后退出
         while (true) {
-            System.out.println("运行中 - " + i + " - " + UUID.randomUUID().toString());
+            System.out.println("运行中 - " + i + " - " + UUID.randomUUID().toString() + "\t" + Thread.currentThread().getName());
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
