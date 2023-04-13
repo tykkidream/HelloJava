@@ -109,7 +109,11 @@ public class HashMap<K,V> extends AbstractMap<K,V>
      */
 
     /**
+     * HashMap 的默认大小。
+     * <br/>
      * The default initial capacity - MUST be a power of two.
+     * <br/>
+     * 2 的 4 次方，等于 16。
      */
     static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16
 
@@ -502,32 +506,75 @@ public class HashMap<K,V> extends AbstractMap<K,V>
      */
     final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
                    boolean evict) {
-        Node<K,V>[] tab; Node<K,V> p; int n, i;
+        // 用于暂存 table 变量
+        Node<K,V>[] tab;
+        // 表示 key 对应的数据节点 Node 对象
+        Node<K,V> p;
+        // tab 数组长度，也就是 table 数组长度
+        int n;
+        // 表示 key 对应的数据节点 Node 对象所在于 tab 中的位置
+        int i;
+
+
+
+        // 第一步， 处理 table 为 null 或大小为 0 的情况
         if ((tab = table) == null || (n = tab.length) == 0)
+            // table 为 null，或者 table 长度为 0，需要初始化 table。
+            // 初始化 table 完成后，table 有了新的大小的空间，n 等于 tab 数组的新长度
             n = (tab = resize()).length;
+
+
+
+        // 第二步
+        // 先计算 key 对应到 table 中的位置，保存到 i 上
+        // 根据 i 得到 key 对应的 table 位置上的数据节点 Node 对象，保存到 p 上
         if ((p = tab[i = (n - 1) & hash]) == null)
+            // 如果 p 为 null，则在 table 中创建新的节点，并保存到 table[i] 上
             tab[i] = newNode(hash, key, value, null);
         else {
-            Node<K,V> e; K k;
+            // 如果 p 存在，则说明可能发生了 hash 冲突，需要区分是否真的 hash 冲突，并处理冲突
+
+            // 是 key 数据在链表或红黑树中的数据节点对象
+            Node<K,V> e;
+            K k;
+
+            // 第一种情况， p 就是 key 的数据
             if (p.hash == hash &&
                     ((k = p.key) == key || (key != null && key.equals(k))))
                 e = p;
+
+            // 第二步情况， p 不是 key 的数据，且 p 上串联的数据是红黑树结构
             else if (p instanceof TreeNode)
                 e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
+
+            // 第三步情况， p 不是 key 的数据，且 p 上串联的数据是链表结构
             else {
+                // 循环 p 上的链表数据，无循环条件，循环体里控制循环中断
+                // 此时 p 是链表上的第一个数据，开始循环链表，跳过 p 直接从 p.next 开始，因为 p 刚才第一步时检查过了
+                // binCount 相当于链表深度、长度
                 for (int binCount = 0; ; ++binCount) {
+                    // p.next 链表中的下一个节点数据，保存到 e 上
+                    // p 是循环链表是，当前位置的数据节点， e 是下一个数据节点
                     if ((e = p.next) == null) {
+                        // 说明， key 对应的数据在链表中不存在，需要新建
                         p.next = newNode(hash, key, value, null);
                         if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                            // 如果链表深度、长度超过了 TREEIFY_THRESHOLD 则转化为红黑树。
                             treeifyBin(tab, hash);
                         break;
                     }
+
                     if (e.hash == hash &&
                             ((k = e.key) == key || (key != null && key.equals(k))))
+                        // 说明 key 对应的数据就是 e
                         break;
+
+                    // 继续循环，下一个数据 e 要成为下一次循环的 p。
                     p = e;
                 }
             }
+
+            // 找到 key 对应的数据节点对象后，更新其值
             if (e != null) { // existing mapping for key
                 V oldValue = e.value;
                 if (!onlyIfAbsent || oldValue == null)
@@ -536,8 +583,12 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                 return oldValue;
             }
         }
+
+
+
         ++modCount;
         if (++size > threshold)
+            // 扩容
             resize();
         afterNodeInsertion(evict);
         return null;
@@ -553,50 +604,119 @@ public class HashMap<K,V> extends AbstractMap<K,V>
      * @return the table
      */
     final Node<K,V>[] resize() {
+        // 扩容前的 table
         Node<K,V>[] oldTab = table;
+        // 扩容前 table 的长度
         int oldCap = (oldTab == null) ? 0 : oldTab.length;
+        // 旧的阙值
         int oldThr = threshold;
-        int newCap, newThr = 0;
+        // 新的 table 的长度
+        int newCap;
+        // 新的阙值
+        int newThr = 0;
+
+        // 第一步，计算新的大小和新的阙值
+        // 第一种情况，旧的 table 中有至少一个数据。初始化后的每次扩展都会
         if (oldCap > 0) {
             if (oldCap >= MAXIMUM_CAPACITY) {
+                // 如果 oldTab 数组达到最多，长度超过规定的最大值
+                // 扩容阙值为 Int类型的最大值，这种情况很少出现
                 threshold = Integer.MAX_VALUE;
+                // 这种情况下不能扩展，直接退出
                 return oldTab;
             }
             else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
                     oldCap >= DEFAULT_INITIAL_CAPACITY)
+                // oldCap 左移一位，就是新的 table 的长度，保存到 newCap，相当于于原来的长度 * 2，新的长度始终保持 2的n 次方大小。
+                // 如果 newCap 比最大容量 MAXIMUM_CAPACITY 小，比默认容量 DEFAULT_INITIAL_CAPACITY 大，对阙值也扩容 2 倍。
+                // newThr 是新的阙值， oldThr 是旧的没有被覆盖
                 newThr = oldThr << 1; // double threshold
         }
+
+        // 第二种情况，旧的 table 中没有数据，且旧的阈值大于 0。
         else if (oldThr > 0) // initial capacity was placed in threshold
+            // 此时新的长度等于此时的阙值
             newCap = oldThr;
+
+        // 第三种情况况，旧的 table 中没有数据，且旧的阈值小于 1。发生于 hashmap 第一次添加数据时的初始化。
         else {               // zero initial threshold signifies using defaults
+            // 初始化时的长度等于默认大小
             newCap = DEFAULT_INITIAL_CAPACITY;
+            // 初始化时的扩容阈值，是长度大小的 DEFAULT_LOAD_FACTOR 倍，也就是 3/4 。
             newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
         }
+
+
+
         if (newThr == 0) {
             float ft = (float)newCap * loadFactor;
             newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
                     (int)ft : Integer.MAX_VALUE);
         }
+
+        // 将新的阈值保存
         threshold = newThr;
+
+        // 根据新的长度，创建新的数组
         @SuppressWarnings({"rawtypes","unchecked"})
         Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
         table = newTab;
+
         if (oldTab != null) {
+            // 循环旧的数组，将数据迁移到新数组上
             for (int j = 0; j < oldCap; ++j) {
+                // 数组每个位置的元素，当前元素
                 Node<K,V> e;
                 if ((e = oldTab[j]) != null) {
+                    // 当前元素存在，不为 null
+                    // 先将旧数组当前这个位置上设置为 null
                     oldTab[j] = null;
+
                     if (e.next == null)
+                        // 如果当前元素只有一个数据，即只有当前元素一个数据
+                        // 重新计算在新数组中的位置，保存到其位置
+                        // 这种情况下，好像可以直接保存到新数组的位置上，之前旧数组小都不会冲突，现在大了更不会冲突。
                         newTab[e.hash & (newCap - 1)] = e;
                     else if (e instanceof TreeNode)
+                        // 如果是红黑树
                         ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
                     else { // preserve order
+                        /*
+                        这里定义了五个Node变量，其中lo和hi是，lower和higher的缩写，也就是高位和低位。
+                        因为我们知道HashMap扩容时，容量会扩到原容量的2倍，也就是放在链表中的Node的位置可能保持不变，
+                        或位置变成在原位置基础上又加了一个数，位置变高了。
+                        这里的高低位就是这个意思，低位指向的是保持原位置不变的节点，高位指向的是需要更新位置的节点。
+                         */
+                        // 低位
                         Node<K,V> loHead = null, loTail = null;
+                        // 高位
                         Node<K,V> hiHead = null, hiTail = null;
                         Node<K,V> next;
                         do {
                             next = e.next;
+
+                            /*
+                            如果 e.hash & oldCap == 0，注意这里是 oldCap，而不是 oldCap - 1。
+                            我们知道 oldCap 是2的次幂，也就是1、2、4、8、16...转化为二进制之后，都是最高位为 1，其它位为 0。
+                            假如 oldCap 为 16，二进制为 10000，oldCap - 1 二进制为 1111，newCap 为 oldCap 的 2 倍，即为 32，
+                            二进制为 100000， newCap - 1 二进制为 11111。
+                            在当前链表中的所有数据的 hash 的低位，与 oldCap - 1 的 & 运算的结果肯定都是一样的，所以当前链表所有数据 hash 的低位都是一样的，这就是 hash 冲突。
+                            当这些数据需要与新的 table 的大小 newCap - 1 进行 & 运算， 因为 newCap - 1 相比 oldCap - 1 的二进制会多一个高位，为 1，
+                            所以这些数据 & （ newCap - 1） 的低位的结果与 & （oldCap - 1） 的结果是一样的，只有新的高位的结果不一样。
+                            新的高位的结果只有两个，即 0 或 1。因为用于判断逻辑，只需要观察新的一个高位的结果就可以了。
+                            由于前面讲的“当前链表所有数据 hash 的低位都是一样的”，所以他们的低位 & 运算相同的数据时的结果也肯定都是一样的。
+                            因为只需要关注高位 & 的结果就行了，不关心低位的结果，低位运算的结果又都一样，所以 & 运算哪个数字就无所谓了，所以这里直接 & oldCap。
+                            也是可以 & （oldCap - 1） 的，只不过要多进行一次 -1 运算。这儿没有 -1 是为了省去 cpu 再做一次运算，省资源的做法。
+
+                            因为元素 hash 与 newCap -1 和 oldCap -1 的 & 运算结果一样，只有新的一个高位结果不一样，且只有两种结果即 0 和 1， 当为 0 时与 oldCap -1 & 运算结果一样。
+                            只有两个结果 0 和 1 也可以理解为 0 或 非0。当高位为 0 时，与 newCap & 运算结果则是 0 ，当高位为 1时 与 newCap & 运算结果会有多个，都大于 1。
+                            所以判断 == 0 说明元素对应 newCap 高位肯定是 0，否则肯定为 1。
+
+                            当为 0 时，因为和 oldCap -1 的 & 运算结果一样，所以这些元素在 table 中的位置和以前的位置是一样的，所以这些数据不需要迁移。
+                            当不为 0 时，相比 oldCap -1 的 & 运算结果其实是大了 oldCap 这么多。
+                             */
                             if ((e.hash & oldCap) == 0) {
+                                // 重新组织当前链表
                                 if (loTail == null)
                                     loHead = e;
                                 else
@@ -604,6 +724,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                                 loTail = e;
                             }
                             else {
+                                // 创建新位置的链表
                                 if (hiTail == null)
                                     hiHead = e;
                                 else
@@ -611,6 +732,9 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                                 hiTail = e;
                             }
                         } while ((e = next) != null);
+
+
+
                         if (loTail != null) {
                             loTail.next = null;
                             newTab[j] = loHead;
