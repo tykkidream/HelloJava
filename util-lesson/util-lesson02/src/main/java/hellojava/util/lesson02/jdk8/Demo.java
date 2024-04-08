@@ -23,5 +23,7 @@ public class Demo {
 
         System.out.print("MAXIMUM_CAPACITY： ");
         System.out.println(Integer.toBinaryString(MAXIMUM_CAPACITY));
+
     }
+
 }

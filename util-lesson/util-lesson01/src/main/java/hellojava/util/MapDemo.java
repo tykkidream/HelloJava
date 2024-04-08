@@ -1,4 +1,4 @@
-package hellojava.util.lesson01;
+package hellojava.util;
 
 import java.util.HashMap;
 import java.util.LinkedList;
