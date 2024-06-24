@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>hellojava.v16</groupId>
-    <artifactId>v16-lesson</artifactId>
+    <groupId>hellojava.v17</groupId>
+    <artifactId>v17-lesson</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <packaging>jar</packaging>
 
-    <name>V16 Lesson</name>
+    <name>V17 Lesson</name>
 
     <build>
         <plugins>
