@@ -2,11 +2,18 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<parent>
+		<groupId>hellojava.v08</groupId>
+		<artifactId>v08-lesson</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
 	<groupId>hellojava.spi</groupId>
 	<artifactId>spi-lesson</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>SPI Lesson</name>
+	<name>V08 SPI Lesson</name>
 
 	<modules>
 		<module>spi-lesson01</module>
@@ -23,18 +30,4 @@
 		</dependencies>
 	</dependencyManagement>
 
-
-	<build>
-		<!-- 注意：某些portlet服务器对jdk有要求，根据所使用的调整版本。 -->
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>
