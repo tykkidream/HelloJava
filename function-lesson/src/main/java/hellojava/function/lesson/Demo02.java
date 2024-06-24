@@ -4,6 +4,8 @@ import java.util.function.BiConsumer;
 
 public class Demo02 {
 	/**
+	 * 使用函数的方式调用 setter 方式
+	 *
 	 * 最下面 test 方法，以往实现这样的效果，就得定义一个接口。
 	 *
 	 * test1、test2、test3以往就是接口的 3 个子类，相比函数式，代码多多了
@@ -30,7 +32,7 @@ public class Demo02 {
 		// 测试简单直接使用类上的函数
 		System.out.println("当前 person  的 address 属性为： " + person.getAddress());
 
-		test1(person, address1);
+		use_function_set_value(person, address1);
 
 		System.out.println("处理 person  的 address 属性为： " + person.getAddress());
 
@@ -38,7 +40,7 @@ public class Demo02 {
 
 		System.out.println("当前 person  的 address 属性为： " + person.getAddress());
 
-		test2(person, address2);
+		use_lambda_set_value_1(person, address2);
 
 		System.out.println("处理 person  的 address 属性为： " + person.getAddress());
 
@@ -47,35 +49,41 @@ public class Demo02 {
 		// 测试级联使用类的属性上的函数
 		System.out.println("当前 address 的 city    属性为： " + address2.getCity());
 
-		test3(person, city);
+		use_lambda_set_value_2(person, city);
 
 		System.out.println("当前 address 的 city    属性为： " + address2.getCity());
 	}
 
 	/**
+	 * 使用函数设置值
+	 *
 	 * 相当于一个接口的实现类
 	 * @param person
 	 * @param address
 	 */
-	private static void test1(Person person, Address address) {
+	private static void use_function_set_value(Person person, Address address) {
 		test(person, address, Person::setAddress);
 	}
 
 	/**
+	 * 使用 lambda 设置值
+	 *
 	 * 相当于一个接口的实现类
 	 * @param person
 	 * @param address
 	 */
-	private static void test2(Person person, Address address) {
+	private static void use_lambda_set_value_1(Person person, Address address) {
 		test(person, address, (a, b) -> a.setAddress(b));
 	}
 
 	/**
+	 * 使用 lambda 设置值
+	 *
 	 * 相当于一个接口的实现类
 	 * @param person
 	 * @param city
 	 */
-	private static void test3(Person person, String city) {
+	private static void use_lambda_set_value_2(Person person, String city) {
 		test(person, city, (aa, bb) -> aa.getAddress().setCity(bb));
 	}
 

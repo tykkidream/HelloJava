@@ -17,9 +17,9 @@ public class Demo01 {
 		List<String> data = testData();
 
 		for (int i = 0; i < 10; i++) {
-			test1(data);
+			test_nativate_set_cost(data);
 
-			test2(data);
+			test_function_set_cost(data);
 
 			System.out.println("===============");
 		}
@@ -38,7 +38,7 @@ public class Demo01 {
 	}
 
 
-	private static void test1(List<String> data) {
+	private static void test_nativate_set_cost(List<String> data) {
 		int size = data.size();
 
 		List<Person> persons = new ArrayList<>(size);
@@ -53,6 +53,7 @@ public class Demo01 {
 			Person person = persons.get(i);
 			String name = data.get(i);
 
+			// 原生的方式设置值
 			person.setName(name);
 		}
 
@@ -61,7 +62,7 @@ public class Demo01 {
 		System.out.println("原生使用时间： " + (end - begin));
 	}
 
-	private static void test2(List<String> data) {
+	private static void test_function_set_cost(List<String> data) {
 
 		int size = data.size();
 
@@ -79,6 +80,7 @@ public class Demo01 {
 			Person person = persons.get(i);
 			String name = data.get(i);
 
+			// 函数的方式设置值
 			function.accept(person, name);
 		}
 
