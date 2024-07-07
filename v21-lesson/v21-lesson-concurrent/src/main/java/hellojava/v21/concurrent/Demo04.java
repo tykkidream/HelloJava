@@ -3,39 +3,36 @@ package hellojava.v21.concurrent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.Executors;
+public class Demo04 {
 
-public class Demo03 {
-
-    private static final Logger logger = LoggerFactory.getLogger(Demo03.class);
+    private static final Logger logger = LoggerFactory.getLogger(Demo04.class);
 
     /**
-     * 简单使用虚拟线程池
+     * 使用 startVirtualThread 启动虚拟线程
+     * 
      * @param args
      * @throws InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
-        var executorService = Executors.newVirtualThreadPerTaskExecutor();
-
         logger.info("开始");
 
-        executorService.submit(() -> {
+        // 使用静态构造器启动虚拟线程
+        Thread.startVirtualThread(() -> {
             var current = Thread.currentThread();
-            logger.info("在真实线程中执行开始： {}", current);
+            logger.info("在虚拟线程中执行开始： {}", current);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            logger.info("在真实线程中执行结束");
+            logger.info("在虚拟线程中执行结束");
         });
+
 
         Thread.sleep(1000);
         logger.info("中间");
         Thread.sleep(1000);
 
         logger.info("结束");
-
-        executorService.close();
     }
 }

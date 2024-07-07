@@ -1,25 +1,25 @@
 package hellojava.v21.concurrent;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
-public class Demo03 {
+public class Demo06 {
 
-    private static final Logger logger = LoggerFactory.getLogger(Demo03.class);
+    private static final Logger logger = LoggerFactory.getLogger(Demo06.class);
 
     /**
-     * 简单使用虚拟线程池
+     * 使用工厂创建虚拟线程
+     *
      * @param args
      * @throws InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
-        var executorService = Executors.newVirtualThreadPerTaskExecutor();
+        ThreadFactory factory = Thread.ofVirtual().name("Thread.ofVirtual", 0).factory();
 
-        logger.info("开始");
-
-        executorService.submit(() -> {
+        Thread thread = factory.newThread(() -> {
             var current = Thread.currentThread();
             logger.info("在真实线程中执行开始： {}", current);
             try {
@@ -27,8 +27,12 @@ public class Demo03 {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            logger.info("在真实线程中执行结束");
+            logger.info("在虚拟线程中执行结束");
         });
+
+        thread.start();
+
+        logger.info("开始");
 
         Thread.sleep(1000);
         logger.info("中间");
@@ -36,6 +40,5 @@ public class Demo03 {
 
         logger.info("结束");
 
-        executorService.close();
     }
 }
