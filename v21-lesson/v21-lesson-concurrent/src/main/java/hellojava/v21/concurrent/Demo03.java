@@ -3,17 +3,24 @@ package hellojava.v21.concurrent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Demo02 {
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-    private static final Logger logger = LoggerFactory.getLogger(Demo02.class);
+public class Demo03 {
+
+    private static final Logger logger = LoggerFactory.getLogger(Demo03.class);
 
     /**
-     * 真实线程的新接口
-     *
+     * 简单使用虚拟线程池
      * @param args
+     * @throws InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
-        Thread.ofPlatform().start(() -> {
+        var executorService = Executors.newVirtualThreadPerTaskExecutor();
+
+        logger.info("开始");
+
+        executorService.submit(() -> {
             logger.info("在真实线程中执行开始");
             try {
                 Thread.sleep(1000);
@@ -23,13 +30,12 @@ public class Demo02 {
             logger.info("在真实线程中执行结束");
         });
 
-        logger.info("开始");
-
         Thread.sleep(1000);
         logger.info("中间");
         Thread.sleep(1000);
 
         logger.info("结束");
 
+        executorService.close();
     }
 }
