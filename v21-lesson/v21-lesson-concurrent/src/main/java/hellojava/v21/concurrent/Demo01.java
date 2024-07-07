@@ -16,7 +16,8 @@ public class Demo01 {
      */
     public static void main(String[] args) throws InterruptedException {
         Thread.ofVirtual().start(() -> {
-            logger.info("在虚拟线程中执行开始");
+            var current = Thread.currentThread();
+            logger.info("在真实线程中执行开始： {}", current);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

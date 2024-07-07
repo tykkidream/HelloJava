@@ -21,7 +21,8 @@ public class Demo03 {
         logger.info("开始");
 
         executorService.submit(() -> {
-            logger.info("在真实线程中执行开始");
+            var current = Thread.currentThread();
+            logger.info("在真实线程中执行开始： {}", current);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

@@ -14,7 +14,8 @@ public class Demo02 {
      */
     public static void main(String[] args) throws InterruptedException {
         Thread.ofPlatform().start(() -> {
-            logger.info("在真实线程中执行开始");
+            var current = Thread.currentThread();
+            logger.info("在真实线程中执行开始： {}", current);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
