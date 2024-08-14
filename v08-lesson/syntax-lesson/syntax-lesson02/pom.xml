@@ -11,8 +11,8 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>syntax-lesson01</artifactId>
+    <artifactId>syntax-lesson02</artifactId>
     <version>1.0</version>
-    <name>V08 Syntax Lesson 01</name>
+    <name>V08 Syntax Lesson 02</name>
 
 </project>

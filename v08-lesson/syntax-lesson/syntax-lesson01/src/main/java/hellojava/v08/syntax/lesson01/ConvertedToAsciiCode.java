@@ -1,4 +1,4 @@
-package hellojava.syntax.lesson01;
+package hellojava.v08.syntax.lesson01;
 
 
 public class ConvertedToAsciiCode {
