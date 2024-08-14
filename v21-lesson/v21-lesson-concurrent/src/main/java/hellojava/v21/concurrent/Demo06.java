@@ -13,32 +13,65 @@ public class Demo06 {
     /**
      * 使用工厂创建虚拟线程
      *
+     * 其实还是与 Thread.ofVirtual().start() 一样。
+     *
      * @param args
      * @throws InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
-        ThreadFactory factory = Thread.ofVirtual().name("Thread.ofVirtual", 0).factory();
+        {
+            ThreadFactory factory = Thread.ofVirtual().factory();
 
-        Thread thread = factory.newThread(() -> {
-            var current = Thread.currentThread();
-            logger.info("在真实线程中执行开始： {}", current);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            logger.info("在虚拟线程中执行结束");
-        });
+            Thread thread = factory.newThread(() -> {
+                var current = Thread.currentThread();
+                logger.info("在虚拟线程中执行开始： {}", current.getName());
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                logger.info("在虚拟线程中执行结束");
+            });
 
-        thread.start();
+            thread.start();
 
-        logger.info("开始");
+            logger.info("开始");
+
+            Thread.sleep(1000);
+            logger.info("中间");
+            Thread.sleep(1000);
+
+            logger.info("结束");
+
+        }
 
         Thread.sleep(1000);
-        logger.info("中间");
-        Thread.sleep(1000);
+        logger.info("==================================================================");
 
-        logger.info("结束");
+        {
+            ThreadFactory factory = Thread.ofVirtual().name("自定义Thread.ofVirtual名称前缀-", 0).factory();
+
+            Thread thread = factory.newThread(() -> {
+                var current = Thread.currentThread();
+                logger.info("在虚拟线程中执行开始： {}", current.getName());
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                logger.info("在虚拟线程中执行结束");
+            });
+
+            thread.start();
+
+            logger.info("开始");
+
+            Thread.sleep(1000);
+            logger.info("中间");
+            Thread.sleep(1000);
+
+            logger.info("结束");
+        }
 
     }
 }

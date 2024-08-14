@@ -10,9 +10,18 @@ public class Demo02 {
     /**
      * 真实线程的新接口
      *
+     * 从日志输出上可以看到 new Thread() 和 Thread.ofPlatform() 创建的线程名称是同一风格的，所以可以得出两者使用的是相同的线程技术。
+     *
      * @param args
      */
     public static void main(String[] args) throws InterruptedException {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                logger.info("在传统线程中执行");
+            }
+        };
+
         Thread.ofPlatform().start(() -> {
             var current = Thread.currentThread();
             logger.info("在真实线程中执行开始： {}", current);
@@ -25,6 +34,8 @@ public class Demo02 {
         });
 
         logger.info("开始");
+
+        thread.start();
 
         Thread.sleep(1000);
         logger.info("中间");

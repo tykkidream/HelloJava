@@ -9,6 +9,8 @@ public class Demo04 {
 
     /**
      * 使用 startVirtualThread 启动虚拟线程
+     *
+     * 其实就是简化了 Thread.ofPlatform().start() 的写法。
      * 
      * @param args
      * @throws InterruptedException
