@@ -11,6 +11,10 @@ public class Demo01 {
     /**
      * 简单使用虚拟线程
      *
+     * 日志中输出了：[virtual-22] [] INFO  hellojava...Demo01 - 在虚拟线程中执行开始： VirtualThread[#22]/runnable@ForkJoinPool-1-worker-1
+     *
+     * 表示虚拟线程号是 virtual-22 ，运行在了真实线程 worker-1 上。
+     *
      * @param args
      * @throws InterruptedException
      */

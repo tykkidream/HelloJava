@@ -12,7 +12,11 @@ public class Demo03 {
     /**
      * 简单使用虚拟线程池
      *
-     * 看日志输出与 Thread.ofVirtual() 的方式地日志一模一样，说明与使用 Thread.ofVirtual() 没区别。
+     * 日志中输出了：[virtual-22] [] INFO  hellojava...Demo01 - 在虚拟线程中执行开始： VirtualThread[#22]/runnable@ForkJoinPool-1-worker-1
+     *
+     * 表示虚拟线程号是 virtual-22 ，运行在了真实线程 worker-1 上。
+     *
+     * 看日志输出与 Thread.ofVirtual() 的方式输出的日志一模一样，说明与使用 Thread.ofVirtual() 没区别。
      *
      * 实际情况下直接使用 Thread.ofVirtual() 即可，没必要使用 Executors.newVirtualThreadPerTaskExecutor()。
      *
