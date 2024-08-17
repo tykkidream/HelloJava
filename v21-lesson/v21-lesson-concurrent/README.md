@@ -16,3 +16,4 @@
 
 
 - [Demo07.java](src%2Fmain%2Fjava%2Fhellojava%2Fv21%2Fconcurrent%2FDemo07.java): 学习 `OfVirtual` 的其它一些用法。
+- [Demo08.java](src%2Fmain%2Fjava%2Fhellojava%2Fv21%2Fconcurrent%2FDemo08.java): 学习 `OfPlatform` 的其它一些用法。

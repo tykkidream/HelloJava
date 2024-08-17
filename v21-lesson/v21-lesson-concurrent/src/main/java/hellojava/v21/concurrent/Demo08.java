@@ -2,27 +2,34 @@ package hellojava.v21.concurrent;
 
 import java.util.Random;
 
-public class Demo07 {
+public class Demo08 {
     /**
-     * 学习 OfVirtual 的其它一些用法
+     * 学习 OfPlatform 的其它一些用法
+     *
      * @param args
      * @throws InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
-        Thread.Builder.OfVirtual virtualBuild = Thread.ofVirtual();
+        Thread.Builder.OfPlatform platformBuilder = Thread.ofPlatform();
 
-        virtualBuild.name("虚拟线程名称");
+        platformBuilder.daemon(true);
+        platformBuilder.group(Thread.currentThread().getThreadGroup());
+        platformBuilder.name("平台线程名称");
+
         // start > 0 的情况下会覆盖上一行 name 方法属性配置
-        virtualBuild.name("虚拟线程名称", 100);
+        platformBuilder.name("平台线程名称", 100);
+
+        platformBuilder.priority(1);
+        platformBuilder.stackSize(10);
 
         // 是否启用ThreadLocal
-        //virtualBuild.allowSetThreadLocals(false);
+        //platformBuilder.allowSetThreadLocals(false);
 
         // 是否启用InheritableThreadLocal
-        virtualBuild.inheritInheritableThreadLocals(false);
+        platformBuilder.inheritInheritableThreadLocals(false);
 
         // 设置未捕获异常处理器
-        virtualBuild.uncaughtExceptionHandler((t, e) -> {
+        platformBuilder.uncaughtExceptionHandler((t, e) -> {
             System.out.println("收到异常！");
             System.out.println(t);
             System.out.println(t.getClass().getName());
@@ -32,8 +39,8 @@ public class Demo07 {
             e.printStackTrace();
         });
 
-        // 创建虚拟线程，但不执行
-        Thread thread = virtualBuild.unstarted(() -> {
+        // 创建不自动启动的线程
+        Thread thread = platformBuilder.unstarted(() -> {
             System.out.println("开始执行虚拟线程里的逻辑！");
 
             Thread currentThread = Thread.currentThread();
@@ -48,8 +55,9 @@ public class Demo07 {
             }
         });
 
-        // 手工开始执行虚拟线程
+        // 手工启动线程
         thread.start();
+
 
         Thread.sleep(3000);
     }
