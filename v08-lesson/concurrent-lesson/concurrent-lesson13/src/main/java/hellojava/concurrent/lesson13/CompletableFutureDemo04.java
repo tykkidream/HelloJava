@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
-public class CompletableFutureDemo02 {
+public class CompletableFutureDemo04 {
 
-    private static final Logger logger = LoggerFactory.getLogger(CompletableFutureDemo02.class);
+    private static final Logger logger = LoggerFactory.getLogger(CompletableFutureDemo04.class);
 
     public static void main(String[] args) throws Exception {
 
@@ -27,27 +27,42 @@ public class CompletableFutureDemo02 {
             future.complete(5 + Math.random() * 20);
         }).start();
 
-
-        logger.info("===========================================================");
-
-        getPrint(future);
-
-        // 在 future 完成后处理结果
+        // 在 future 完成后处理结果，thenAccept 可以重复使用
         future.thenAccept(result -> {
+            // 重要注意事项：当前回调会在主线程中执行！！！
+            logger.info("===========================================================");
+            logger.info("thenAccept 1111 中获取到结果 {}", result);
+            getPrint(future);
+        });
+        // 在 future 完成后处理结果，thenAccept 可以重复使用
+        future.thenAccept(result -> {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            // 重要注意事项：当前回调会在主线程中执行！！！
+            logger.info("===========================================================");
+            logger.info("thenAccept 2222 中获取到结果 {}", result);
+            getPrint(future);
+        });
+        // 在 future 完成后处理结果，thenAccept 可以重复使用
+        future.thenAccept(result -> {
+            try {
+                Thread.sleep(900);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             // 重要注意事项：当前回调会在执行 complete 的线程中执行！！！
             logger.info("===========================================================");
-            logger.info("thenAccept 中获取到结果 {}", result);
+            logger.info("thenAccept 3333 中获取到结果 {}", result);
             getPrint(future);
         });
 
         // 等待 future 完成
         future.join();
 
-        Thread.sleep(100);
-
-        logger.info("===========================================================");
-
-        getPrint(future);
+        logger.info("------------------------------------------------------");
     }
 
     private static void getPrint(CompletableFuture<Double> future) {
